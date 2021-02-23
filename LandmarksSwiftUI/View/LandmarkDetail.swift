@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  LandmarkDetail.swift
 //  LandmarksSwiftUI
 //
 //  Created by Andy Lochan on 2/22/21.
@@ -7,42 +7,44 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct LandmarkDetail: View {
+    var landmark: Landmark
+    
     var body: some View {
-        VStack {
-            MapView()
+        ScrollView {
+            MapView(coordinate: landmark.locationCoordinate)
                 .ignoresSafeArea(edges: .top)
                 .frame(height: 300)
             
-            CircleImage()
+            CircleImage(image: landmark.image)
                 .offset(y: -130)
                 .padding(.bottom, -130)
             
             VStack(alignment: .leading) {
-                Text("Unisphere")
+                Text(landmark.name)
                     .font(.title)
                 HStack {
-                    Text("Flushing Meadows-Corona Park")
+                    Text(landmark.park)
                     Spacer()
-                    Text("New York")
+                    Text(landmark.state)
                 }
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 
                 Divider()
-                Text("About the Unisphere")
+                Text("About \(landmark.name)")
                     .font(.title2)
-                Text("The sphere, which measures 140 feet high and 120 feet in diameter, was designed by Gilmore D. Clarke as part of his plan for the 1964 New York World's Fair.")
+                Text(landmark.description)
             }
             .padding()
-            
-            Spacer()
         }
+        .navigationTitle(landmark.name)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct LandmarkDetail_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        LandmarkDetail(landmark: landmarks[0])
     }
 }
